@@ -1,5 +1,5 @@
 import type { rgbaType } from '@/types/types';
-import legoColors from '@/utils/LegoColors'
+// import legoColors from '@/utils/LegoColors'
 
 const getContrastColor = (hexColor: string) => {
   const rawHexColor = hexColor.slice(1);
@@ -46,28 +46,28 @@ const euclideanDistance = (color1, color2): number => {
 }
 
 const findClosestMatchingColor = (rgbaColor: rgbaType) => {
-  // only do this once
-  const colorArray = legoColors.map(e => {
-    const m = e.color.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
-    return {
-      r: parseInt(m[1], 16),
-      g: parseInt(m[2], 16),
-      b: parseInt(m[3], 16),
-    };
-  });
+  // // only do this once
+  // const colorArray = legoColors.map(e => {
+  //   const m = e.color.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+  //   return {
+  //     r: parseInt(m[1], 16),
+  //     g: parseInt(m[2], 16),
+  //     b: parseInt(m[3], 16),
+  //   };
+  // });
 
-  let closestColor = colorArray[0];
-  let minDistance = euclideanDistance(rgbaColor, closestColor);
+  // let closestColor = colorArray[0];
+  // let minDistance = euclideanDistance(rgbaColor, closestColor);
 
-  for (const color of colorArray) {
-    const distance = euclideanDistance(rgbaColor, color);
-    if (distance < minDistance) {
-      minDistance = distance;
-      closestColor = color;
-    }
-  }
+  // for (const color of colorArray) {
+  //   const distance = euclideanDistance(rgbaColor, color);
+  //   if (distance < minDistance) {
+  //     minDistance = distance;
+  //     closestColor = color;
+  //   }
+  // }
 
-  return closestColor;
+  // return closestColor;
 }
 
 export { getContrastColor, calculateAverageColorFromClampedArray, findClosestMatchingColor };

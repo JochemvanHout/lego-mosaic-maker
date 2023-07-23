@@ -5,4 +5,16 @@ type rgbaType = {
   a: number,
 }
 
-export type { rgbaType };
+type LegoColor = {
+  colorName: string;
+  color: string;
+  rgb: {
+    r: number;
+    g: number;
+    b: number;
+  };
+};
+
+type LegoColorsObject = { [key: number]: LegoColor };
+
+export type { rgbaType, LegoColor, LegoColorsObject };

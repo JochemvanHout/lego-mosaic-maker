@@ -5,8 +5,8 @@
   <button @click="deselectAllColors">unselect all colors</button>
 
   <section class="lego-color-selector">
-    <lego-color-block v-for="value in selectedLegoColors" :key="value.colorName" 
-                      v-model="value.selected" :name="value.colorName" 
+    <lego-color-block v-for="(value, index) in colorStore.colors" :key="index" 
+                      :name="value.colorName" 
                       :color="value.color"/>
   </section>
 
@@ -15,12 +15,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LegoColorBlock from './LegoColorBlock.vue';
-import LegoColors from '@/utils/LegoColors';
+import { useColorStore } from '@/stores/colors';
 
-const selectedLegoColors = ref(LegoColors.map(item => ({ selected: false,...item})));
+const colorStore = useColorStore();
 
-const selectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: true}));
-const deselectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: false}));
+const selectAllColors = () => { colorStore.selectAllColors() }
+const deselectAllColors = () => { colorStore.unselectAllColors() }
+
+// const selectedLegoColors = ref(Object.keys(LegoColors).map(item => ({ selected: false,...item})));
+
+// const selectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: true}));
+// const deselectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: false}));
 
 </script>
 

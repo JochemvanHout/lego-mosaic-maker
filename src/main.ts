@@ -1,12 +1,16 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-
 import App from './App.vue';
 
+import { useColorStore } from './stores/colors';
 import './assets/main.scss';
 
-const app = createApp(App);
+(async () => {
+  createApp(App)
+    .use(createPinia())
+    .mount('#app');
 
-app.use(createPinia());
+  useColorStore().loadLegoColors();
 
-app.mount('#app');
+})();
+
