@@ -1,6 +1,6 @@
 <template>
   <label class="lego-color-block">
-    <input type="checkbox"/>
+    <input type="checkbox" v-model="value"/>
     <span>{{ props.name }}</span>
   </label>
 </template>
@@ -10,21 +10,21 @@ import { computed } from 'vue';
 import { getContrastColor } from '@/utils/ColorCalculations'; 
 
 const props = defineProps<{
-  // modelValue: boolean,
+  modelValue: boolean,
   name: string,
   color: string,
 }>();
 
 const emits = defineEmits(['update:modelValue'])
 
-// const value = computed({
-//   get() {
-//     return props.modelValue
-//   },
-//   set(newValue) {
-//     emits('update:modelValue', newValue)
-//   }
-// })
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(newValue) {
+    emits('update:modelValue', newValue)
+  }
+})
 
 const backgroundColor = computed(() => props.color);
 const textColor = computed(() => getContrastColor(props.color));

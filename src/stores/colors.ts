@@ -4,25 +4,21 @@ import LegoColors from '@/utils/LegoColors';
 
 type colorStore = {
   colors: null | LegoColorsObject,
-  selectedColors: number[]
 }
 
 export const useColorStore = defineStore('colorStore', {
   state: (): colorStore => ({
     colors: {},
-    selectedColors: [],
   }),
   actions: {
     loadLegoColors () {        
       this.colors = LegoColors;
     },
     unselectAllColors () {
-      this.selectedColors = [];
+      Object.keys(this.colors!).forEach((key) => ( this.colors![key].selected = false));
     },
     selectAllColors () {
-      Object.keys(this.colors!).forEach(key => {
-        this.selectedColors.push(parseInt(key))
-      });
+      Object.keys(this.colors!).forEach((key) => ( this.colors![key].selected = true));
     },
   }
 });

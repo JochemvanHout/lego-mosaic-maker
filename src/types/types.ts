@@ -1,20 +1,19 @@
-type rgbaType = {
+type rgbType = {
   r: number,
   g: number,
   b: number,
-  a: number,
 }
 
-type LegoColor = {
-  colorName: string;
+type LegoColorItem = {
   color: string;
   rgb: {
     r: number;
     g: number;
     b: number;
   };
+  selected: false;
 };
 
-type LegoColorsObject = { [key: number]: LegoColor };
+type LegoColorsObject = { [colorName: string]: LegoColorItem };
 
-export type { rgbaType, LegoColor, LegoColorsObject };
+export type { rgbType, LegoColorItem, LegoColorsObject };
