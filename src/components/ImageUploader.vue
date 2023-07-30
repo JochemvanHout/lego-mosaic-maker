@@ -13,8 +13,8 @@
 
     <section>
       <h2>Image information</h2>
-      <div>Image height: {{ canvasImage.naturalHeight }} px</div>
-      <div>Image width: {{ canvasImage.naturalWidth }} px</div>
+      <div>Image width: {{ canvasSize.x }} px</div>
+      <div>Image height: {{ canvasSize.y }} px</div>
     </section>
 
     <section>
@@ -40,6 +40,7 @@ import { ref } from 'vue';
 import LegoColorSelector from '@/components/LegoColorSelector.vue';
 import { calculateAverageColorFromClampedArray, findClosestMatchingColor } from '@/utils/ColorCalculations';
 import { useColorStore } from '@/stores/colors';
+import { drawCircleOnCanvas } from '@/utils/DrawOnCanvas';
 
 const fileInput = ref<null | HTMLInputElement>(null)
 const uploadImage = ref();
@@ -47,6 +48,7 @@ const canvasImage = ref(new Image());
 const uploadCanvas = ref<HTMLCanvasElement>();
 const drawCanvas = ref<HTMLCanvasElement>();
 const brushSize = ref(10);
+const canvasSize = ref({x: 0, y:0})
 
 const colorStore = useColorStore();
 
@@ -55,9 +57,9 @@ const handleFile = () => {
   extractInformation();
 }
 
-const setCanvasSize = (canvas: HTMLCanvasElement, image: HTMLImageElement) => {
-  canvas.width = image.naturalWidth;
-  canvas.height = image.naturalHeight;
+const setCanvasSize = (canvas: HTMLCanvasElement, width: number, height: number) => {
+  canvas.width = width;
+  canvas.height = height;
 }
 
 const extractInformation = () => {
@@ -65,39 +67,37 @@ const extractInformation = () => {
 
   canvasImage.value.onload = () => {
     const context = uploadCanvas.value!.getContext('2d');
-    setCanvasSize(uploadCanvas.value!, canvasImage.value);
+    const { width, height } = canvasImage.value;
+    canvasSize.value = {x: width, y: height};
+
+    setCanvasSize(uploadCanvas.value!, width, height);
+
     context!.drawImage(canvasImage.value, 0, 0);
   }
-}
-
-const drawCircleOnCanvas = (context: CanvasRenderingContext2D, x: number, y: number, color, blockSize: number) => {
-  context.beginPath();
-  context.arc(x + (blockSize / 2), y + (blockSize / 2), blockSize / 2, 0, 2 * Math.PI);
-  context.fillStyle = `rgb(${color.r},${color.g},${color.b})`;
-  context.fill();
 }
 
 const generateImage = () => {
   const ogContext = uploadCanvas.value!.getContext('2d');
   const context = drawCanvas.value!.getContext('2d');
-  setCanvasSize(drawCanvas.value!, canvasImage.value);
+
+  const height = uploadCanvas.value?.height! - (uploadCanvas.value!.height! % brushSize.value);
+  const width = uploadCanvas.value?.width! - (uploadCanvas.value!.width! % brushSize.value);
+
+  setCanvasSize(drawCanvas.value!, width, height);
 
   const extractSelectedColors = Object.entries(colorStore.colors)
     .filter(([, colorObj]) => colorObj.selected === true)
     .map(([, colorObj]) => colorObj.rgb);
 
-  for (let xCoordinate = 0; xCoordinate < uploadCanvas.value!.width; xCoordinate += brushSize.value) {
-      for (let yCoordinate = 0; yCoordinate < uploadCanvas.value!.height; yCoordinate += brushSize.value) {
+  for (let x = 0; x < width; x += brushSize.value) {
+      for (let y = 0; y < height; y += brushSize.value) {
 
-        const colorsFromCoordinates = ogContext?.getImageData(xCoordinate,yCoordinate,brushSize.value,brushSize.value).data;
-
-        if(colorsFromCoordinates){
-          const averageColor = calculateAverageColorFromClampedArray(colorsFromCoordinates);
-          const legoColor = findClosestMatchingColor(averageColor, extractSelectedColors);
-              
-          drawCircleOnCanvas(context!, xCoordinate, yCoordinate, legoColor, brushSize.value);
-        }
-
+        const colorsFromCoordinates = ogContext?.getImageData(x,y,brushSize.value,brushSize.value).data;
+        const averageColor = calculateAverageColorFromClampedArray(colorsFromCoordinates!);
+        const legoColor = findClosestMatchingColor(averageColor, extractSelectedColors);
+            
+        drawCircleOnCanvas(context!, x, y, legoColor, brushSize.value);
+        // drawSquareOnCanvas(context!, x, y, legoColor, brushSize.value);
       }
     }
 }
