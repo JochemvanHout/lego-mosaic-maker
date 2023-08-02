@@ -1,13 +1,15 @@
 <template>
-  <button @click="selectAllColors">select all colors</button>
-  <button @click="deselectAllColors">unselect all colors</button>
-
   <section class="lego-color-selector">
-    <lego-color-block v-for="(value, index) in colorStore.colors" :key="index" 
-                      :name="(index as string)" :color="value.color"
-                      v-model="value.selected"/>
+    <div class="button-wrapper">
+      <button :style="{background: 'green', 'margin-right': '16px'}" @click="selectAllColors">select all colors</button>
+      <button :style="{background: 'red'}" @click="deselectAllColors">unselect all colors</button>
+    </div>
+    <section class="lego-color-grid">
+      <lego-color-block v-for="(value, index) in colorStore.colors" :key="index" 
+                        :name="(index as string)" :color="value.color"
+                        v-model="value.selected"/>
+    </section>
   </section>
-
 </template>
 
 <script setup lang="ts">
@@ -22,7 +24,13 @@ const deselectAllColors = () => { colorStore.unselectAllColors() }
 </script>
 
 <style scoped lang="scss">
-  .lego-color-selector {
+.lego-color-selector {
+
+  button {
+
+  }
+  
+  .lego-color-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(7, 1fr); 
@@ -31,4 +39,5 @@ const deselectAllColors = () => { colorStore.unselectAllColors() }
 
     margin: 16px;
   }
+}
 </style>

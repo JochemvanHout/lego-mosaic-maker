@@ -14,5 +14,7 @@ import ImageUploader from '@/components/ImageUploader.vue';
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  text-align: center;
 }
 </style>

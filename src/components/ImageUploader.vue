@@ -11,11 +11,7 @@
       <canvas ref="uploadCanvas" class="canvas" id="upload-canvas"/>
     </section>
 
-    <section>
-      <h2>Image information</h2>
-      <div>Image width: {{ canvasSize.x }} px</div>
-      <div>Image height: {{ canvasSize.y }} px</div>
-    </section>
+    <canvas-information :canvas-size="canvasSize" :brush-size="brushSize"/>
 
     <section>
       <h2>Choose pixel size</h2>
@@ -27,8 +23,8 @@
       <lego-color-selector />
     </section>
 
-    <section>
-      <h2>Make the magic happen</h2>
+    <section class="draw-canvas">
+      <h2>Generate image in Lego</h2>
       <button @click="generateImage">Generate</button>
       <canvas ref="drawCanvas" class="canvas" id="draw-canvas"/>
     </section>
@@ -41,6 +37,7 @@ import LegoColorSelector from '@/components/LegoColorSelector.vue';
 import { calculateAverageColorFromClampedArray, findClosestMatchingColor } from '@/utils/ColorCalculations';
 import { useColorStore } from '@/stores/colors';
 import { drawCircleOnCanvas } from '@/utils/DrawOnCanvas';
+import CanvasInformation from './CanvasInformation.vue';
 
 const fileInput = ref<null | HTMLInputElement>(null)
 const uploadImage = ref();
@@ -48,7 +45,7 @@ const canvasImage = ref(new Image());
 const uploadCanvas = ref<HTMLCanvasElement>();
 const drawCanvas = ref<HTMLCanvasElement>();
 const brushSize = ref(10);
-const canvasSize = ref({x: 0, y:0})
+const canvasSize = ref({x: 0, y:0});
 
 const colorStore = useColorStore();
 
@@ -82,6 +79,8 @@ const generateImage = () => {
 
   const height = uploadCanvas.value?.height! - (uploadCanvas.value!.height! % brushSize.value);
   const width = uploadCanvas.value?.width! - (uploadCanvas.value!.width! % brushSize.value);
+  // const height = Math.floor(canvasSize.value.y / brushSize.value);
+  // const width = Math.floor(canvasSize.value.x / brushSize.value);
 
   setCanvasSize(drawCanvas.value!, width, height);
 
@@ -122,6 +121,11 @@ input[type=file] {
 canvas {
   background-color: black;
   max-width: 50vw;
-  max-height: 50vh;
+  max-height: 100vh;
+}
+
+.draw-canvas {
+  display: flex;
+  flex-direction: column;
 }
 </style>
