@@ -11,7 +11,7 @@ type LegoColorItem = {
     g: number;
     b: number;
   };
-  selected: false;
+  selected: boolean;
 };
 
 type LegoColorsObject = { [colorName: string]: LegoColorItem };
