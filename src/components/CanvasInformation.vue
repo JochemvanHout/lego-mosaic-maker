@@ -29,11 +29,7 @@
           </tr>
         </tbody>
       </table>
-      <!-- <p>Image width: {{ canvasSize.x }} px</p>
-      <p>Image height: {{ canvasSize.y }} px</p>
-      <p>Using a pixel size of {{ brushSize }}, your lego creation will be {{ bricksWidth }} bricks wide and {{ bricksHeight }} bricks tall.</p>
-      <p>{{ (bricksWidth * 0.8).toFixed(2) }} cm by {{ (bricksHeight * 0.8).toFixed(2) }} cm</p> -->
-      <!-- <p>Total lego bricks needed: {{ bricksTotal }}</p> -->
+      
       <p>Estimated cost: €{{ (bricksTotal * 0.04).toFixed(2) }}</p>
     </section>
 </template>

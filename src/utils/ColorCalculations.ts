@@ -36,7 +36,7 @@ const calculateAverageColorFromClampedArray = (clampedArray: Uint8ClampedArray):
   return newColor;
 }
 
-const euclideanDistance = (color1, color2): number => {
+const euclideanDistance = (color1: rgbType, color2: rgbType): number => {
   const diffR = color1.r - color2.r;
   const diffG = color1.g - color2.g;
   const diffB = color1.b - color2.b;

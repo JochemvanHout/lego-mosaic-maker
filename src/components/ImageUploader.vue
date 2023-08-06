@@ -79,26 +79,23 @@ const generateImage = () => {
 
   const height = uploadCanvas.value?.height! - (uploadCanvas.value!.height! % brushSize.value);
   const width = uploadCanvas.value?.width! - (uploadCanvas.value!.width! % brushSize.value);
-  // const height = Math.floor(canvasSize.value.y / brushSize.value);
-  // const width = Math.floor(canvasSize.value.x / brushSize.value);
 
   setCanvasSize(drawCanvas.value!, width, height);
 
-  const extractSelectedColors = Object.entries(colorStore.colors)
-    .filter(([, colorObj]) => colorObj.selected === true)
+  const extractSelectedColors = Object.entries(colorStore.colors!)
+    .filter(([, colorObj]) => colorObj.selected)
     .map(([, colorObj]) => colorObj.rgb);
 
-  for (let x = 0; x < width; x += brushSize.value) {
-      for (let y = 0; y < height; y += brushSize.value) {
+  for (let x = 0; x < width; x += brushSize.value) {  
+    for (let y = 0; y < height; y += brushSize.value) {
 
-        const colorsFromCoordinates = ogContext?.getImageData(x,y,brushSize.value,brushSize.value).data;
-        const averageColor = calculateAverageColorFromClampedArray(colorsFromCoordinates!);
-        const legoColor = findClosestMatchingColor(averageColor, extractSelectedColors);
-            
-        drawCircleOnCanvas(context!, x, y, legoColor, brushSize.value);
-        // drawSquareOnCanvas(context!, x, y, legoColor, brushSize.value);
-      }
+      const colorsFromCoordinates = ogContext?.getImageData(x,y,brushSize.value,brushSize.value).data;
+      const averageColor = calculateAverageColorFromClampedArray(colorsFromCoordinates!);
+      const legoColor = findClosestMatchingColor(averageColor, extractSelectedColors);
+          
+      drawCircleOnCanvas(context!, x, y, legoColor, brushSize.value);
     }
+  }
 }
 </script>
 

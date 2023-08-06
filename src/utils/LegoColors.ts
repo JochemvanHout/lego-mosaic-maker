@@ -1,6 +1,7 @@
 export default {
-  'Aqua': { color: '#00BFFF', rgb: { r: 0, g: 191, b: 255 }, selected: false },
+  'White': { color: '#FFFFFF', rgb: { r: 255, g: 255, b: 255 }, selected: false },
   'Black': { color: '#000000', rgb: { r: 0, g: 0, b: 0 }, selected: false },
+  'Aqua': { color: '#00BFFF', rgb: { r: 0, g: 191, b: 255 }, selected: false },
   'Brick Yellow': { color: '#D9AE5E', rgb: { r: 217, g: 174, b: 94 }, selected: false },
   'Bright Blue': { color: '#3B9C9C', rgb: { r: 59, g: 156, b: 156 }, selected: false },
   'Bright Bluish Green': { color: '#00FC9C', rgb: { r: 0, g: 252, b: 156 }, selected: false },
@@ -39,5 +40,4 @@ export default {
   'Vibrant Coral': { color: '#FF4981', rgb: { r: 255, g: 73, b: 129 }, selected: false },
   'Vibrant Yellow': { color: '#FFE600', rgb: { r: 255, g: 230, b: 0 }, selected: false },
   'Warm Gold': { color: '#F6CD0A', rgb: { r: 246, g: 205, b: 10 }, selected: false },
-  'White': { color: '#FFFFFF', rgb: { r: 255, g: 255, b: 255 }, selected: false },
 };
