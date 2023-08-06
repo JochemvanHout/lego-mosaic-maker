@@ -1,5 +1,5 @@
-import type { rgbaType } from '@/types/types';
-import legoColors from '@/utils/LegoColors'
+import type { LegoColorItem, rgbType } from '@/types/types';
+// import legoColors from '@/utils/LegoColors'
 
 const getContrastColor = (hexColor: string) => {
   const rawHexColor = hexColor.slice(1);
@@ -13,21 +13,19 @@ const getContrastColor = (hexColor: string) => {
   return luminance > 0.5 ? 'black' : 'white';
 }
 
-const calculateAverageColorFromClampedArray = (clampedArray: Uint8ClampedArray): rgbaType => {
+const calculateAverageColorFromClampedArray = (clampedArray: Uint8ClampedArray): rgbType => {
   const arrayLength = clampedArray?.length;
 
   const newColor = {
     r: 0,
     g: 0,
     b: 0,
-    a: 0,
   }
 
   for (let i=0; i < arrayLength; i += 4) {
     newColor.r += clampedArray[i];
     newColor.g += clampedArray[i + 1];
     newColor.b += clampedArray[i + 2];
-    newColor.a += clampedArray[i + 3];
   }
 
   Object.entries(newColor).forEach(([key, value]) => {
@@ -38,29 +36,19 @@ const calculateAverageColorFromClampedArray = (clampedArray: Uint8ClampedArray):
   return newColor;
 }
 
-const euclideanDistance = (color1, color2): number => {
+const euclideanDistance = (color1: rgbType, color2: rgbType): number => {
   const diffR = color1.r - color2.r;
   const diffG = color1.g - color2.g;
   const diffB = color1.b - color2.b;
   return Math.sqrt(diffR * diffR + diffG * diffG + diffB * diffB);
 }
 
-const findClosestMatchingColor = (rgbaColor: rgbaType) => {
-  // only do this once
-  const colorArray = legoColors.map(e => {
-    const m = e.color.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
-    return {
-      r: parseInt(m[1], 16),
-      g: parseInt(m[2], 16),
-      b: parseInt(m[3], 16),
-    };
-  });
+const findClosestMatchingColor = (rgbColor: rgbType, matchingArray: rgbType[]) => {
+  let closestColor = matchingArray[0];
+  let minDistance = euclideanDistance(rgbColor, closestColor);
 
-  let closestColor = colorArray[0];
-  let minDistance = euclideanDistance(rgbaColor, closestColor);
-
-  for (const color of colorArray) {
-    const distance = euclideanDistance(rgbaColor, color);
+  for (const color of matchingArray) {
+    const distance = euclideanDistance(rgbColor, color);
     if (distance < minDistance) {
       minDistance = distance;
       closestColor = color;

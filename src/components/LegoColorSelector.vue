@@ -1,31 +1,36 @@
 <template>
-  <h1>Official lego brick colors</h1>
-  
-  <button @click="selectAllColors">select all colors</button>
-  <button @click="deselectAllColors">unselect all colors</button>
-
   <section class="lego-color-selector">
-    <lego-color-block v-for="value in selectedLegoColors" :key="value.colorName" 
-                      v-model="value.selected" :name="value.colorName" 
-                      :color="value.color"/>
+    <div class="button-wrapper">
+      <button :style="{background: 'green', 'margin-right': '16px'}" @click="selectAllColors">select all colors</button>
+      <button :style="{background: 'red'}" @click="deselectAllColors">unselect all colors</button>
+    </div>
+    <section class="lego-color-grid">
+      <lego-color-block v-for="(value, index) in colorStore.colors" :key="index" 
+                        :name="(index as string)" :color="value.color"
+                        v-model="value.selected"/>
+    </section>
   </section>
-
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import LegoColorBlock from './LegoColorBlock.vue';
-import LegoColors from '@/utils/LegoColors';
+import { useColorStore } from '@/stores/colors';
 
-const selectedLegoColors = ref(LegoColors.map(item => ({ selected: false,...item})));
+const colorStore = useColorStore();
 
-const selectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: true}));
-const deselectAllColors = () => selectedLegoColors.value = selectedLegoColors.value.map(item => ({ ...item, selected: false}));
+const selectAllColors = () => { colorStore.selectAllColors() }
+const deselectAllColors = () => { colorStore.unselectAllColors() }
 
 </script>
 
 <style scoped lang="scss">
-  .lego-color-selector {
+.lego-color-selector {
+
+  button {
+
+  }
+  
+  .lego-color-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(7, 1fr); 
@@ -34,4 +39,5 @@ const deselectAllColors = () => selectedLegoColors.value = selectedLegoColors.va
 
     margin: 16px;
   }
+}
 </style>

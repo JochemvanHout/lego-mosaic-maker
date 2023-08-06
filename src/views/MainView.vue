@@ -1,13 +1,11 @@
 <template>
   <section class="information">
-    <image-canvas />
+    <image-uploader />
   </section>
-  <!-- <lego-color-selector /> -->
 </template>
 
 <script setup lang="ts">
-import ImageCanvas from '@/components/ImageCanvas.vue';
-import LegoColorSelector from '@/components/LegoColorSelector.vue';
+import ImageUploader from '@/components/ImageUploader.vue';
 </script>
 
 <style scoped lang="scss">
@@ -16,5 +14,7 @@ import LegoColorSelector from '@/components/LegoColorSelector.vue';
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  text-align: center;
 }
 </style>

@@ -1,0 +1,1 @@
+Onderaan hoeveel van elk blokje er is
