@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { getContrastColor } from '@/utils/ColorCalculations'; 
+import { getBlackorWhiteContrast } from '@/utils/BlackOrWhiteContrast'; 
 
 const props = defineProps<{
   modelValue: boolean,
@@ -27,7 +27,7 @@ const value = computed({
 })
 
 const backgroundColor = computed(() => props.color);
-const textColor = computed(() => getContrastColor(props.color));
+const textColor = computed(() => getBlackorWhiteContrast(props.color));
 
 </script>
 
@@ -47,12 +47,6 @@ const textColor = computed(() => getContrastColor(props.color));
   color: v-bind(textColor);
 
   cursor: pointer;
-
-  & select, input {
-    // -webkit-appearance: none;
-    // -moz-appearance: none;
-    // appearance: none;
-  }
 
   &:hover {
     opacity: 0.5;
