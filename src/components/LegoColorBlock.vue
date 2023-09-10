@@ -33,7 +33,7 @@ const textColor = computed(() => getBlackorWhiteContrast(props.color));
 
 <style scoped lang="scss">
 .lego-color-block {
-  height: 40px;
+  // height: 40px;
   padding: 8px 16px;
 
   display: grid;

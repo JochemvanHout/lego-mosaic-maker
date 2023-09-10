@@ -1,6 +1,6 @@
 <template>
   <section class="file-upload">
-    <label for="file-upload" class="custom-file-upload">file upload</label>
+    <label for="file-upload" class="custom-file-upload">Upload image</label>
     <input ref="fileInput" id="file-upload" type="file" accept="image/*" @change="handleFile()"/>
     
     <template v-if="uploadImage">
@@ -56,29 +56,27 @@ const extractInformation = () => {
 </script>
 
 <style scoped lang="scss">
-input[type=file] {
-  display: none;
-}
-
-.custom-file-upload {
-  border: 1px solid #ccc;
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
-  &:hover {
-    background: white;
-    color: black;
-  }
-}
-
-canvas {
-  background-color: black;
-  max-width: 50vw;
-  max-height: 100vh;
-}
-
-.draw-canvas {
+.file-upload {
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  input[type=file] {
+    display: none;
+  }
+
+  .custom-file-upload {
+    background: #ccc;
+    color: black;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 12px;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
 </style>

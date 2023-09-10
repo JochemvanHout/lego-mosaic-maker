@@ -25,10 +25,6 @@ const deselectAllColors = () => { colorStore.unselectAllColors() }
 
 <style scoped lang="scss">
 .lego-color-selector {
-
-  button {
-
-  }
   
   .lego-color-grid {
     display: grid;
@@ -37,7 +33,11 @@ const deselectAllColors = () => { colorStore.unselectAllColors() }
     grid-column-gap: 16px;
     grid-row-gap: 16px;
 
-    margin: 16px;
+    padding: 16px;
+  }
+
+  .button-wrapper {
+    margin-left: 16px;
   }
 }
 </style>

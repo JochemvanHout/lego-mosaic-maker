@@ -1,7 +1,7 @@
 <template>
-  <section class="draw-canvas">
+  <section class="image-generator">
     <button @click="generateImage">Generate</button>
-    <canvas ref="drawCanvas" class="canvas" id="draw-canvas"/>
+    <canvas ref="drawCanvas" :class="{hidden: !showCanvas}"/>
   </section>
 </template>
 
@@ -15,6 +15,7 @@ import { drawCircleOnCanvas } from '@/utils/DrawOnCanvas';
 import { storeToRefs } from 'pinia';
 
 const drawCanvas = ref<HTMLCanvasElement>();
+const showCanvas = ref(false);
 
 const colorStore = useColorStore();
 const propertiesStore = usePropertiesStore();
@@ -27,11 +28,14 @@ const setCanvasSize = (canvas: HTMLCanvasElement, width: number, height: number)
 }
 
 const generateImage = () => {
+  propertiesStore.hasgeneratedImage = false;
+  showCanvas.value = true;
+  colorStore.resetColorCount();
+  
   const context = drawCanvas.value!.getContext('2d');
 
   const height = canvasSize.value.height! - (canvasSize.value.height! % brushSize.value);
   const width = canvasSize.value.width! - (canvasSize.value.width! % brushSize.value);
-  console.log(height, width);
 
   setCanvasSize(drawCanvas.value!, width, height);
 
@@ -45,26 +49,32 @@ const generateImage = () => {
       const colorsFromCoordinates = uploadContext.value?.getImageData(x,y, brushSize.value, brushSize.value).data;
       const averageColor = calculateAverageColorFromClampedArray(colorsFromCoordinates!);
       const legoColor = findClosestMatchingColor(averageColor, extractSelectedColors);
+
+      // ideally store this all at once in store, performance is poor
+      colorStore.addColorCount(legoColor);
           
       drawCircleOnCanvas(context!, x, y, legoColor, brushSize.value);
     }
   }
+
+  propertiesStore.hasgeneratedImage = true;
+  
 }
 </script>
 
 <style scoped lang="scss">
-input[type=file] {
-  display: none;
-}
 
-canvas {
-  background-color: black;
-  max-width: 50vw;
-  max-height: 100vh;
-}
-
-.draw-canvas {
+.image-generator {
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  button {
+    margin-bottom: 12px;
+  }
+  
+  .hidden {
+    display: none;
+  }
 }
 </style>

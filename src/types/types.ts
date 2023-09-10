@@ -12,6 +12,7 @@ type LegoColorItem = {
     b: number;
   };
   selected: boolean;
+  count: number;
 };
 
 type LegoColorsObject = { [colorName: string]: LegoColorItem };

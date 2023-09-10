@@ -4,6 +4,7 @@ type colorStore = {
   brushSize: number,
   canvasSize: { height: number, width: number },
   hasImage: boolean,
+  hasgeneratedImage: boolean,
   uploadContext: null | CanvasRenderingContext2D,
 }
 
@@ -15,8 +16,7 @@ export const usePropertiesStore = defineStore('propertiesStore', {
       width: 0,
     },
     hasImage: false,
+    hasgeneratedImage: false,
     uploadContext: null
-  }),
-  actions: {
-  }
+  })
 });

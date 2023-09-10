@@ -1,3 +1,5 @@
+import type { rgbType } from "@/types/types";
+
 export const calculateAverageColorFromClampedArray = (clampedArray: Uint8ClampedArray): rgbType => {
   const arrayLength = clampedArray?.length;
 
